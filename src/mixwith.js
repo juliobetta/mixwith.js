@@ -103,7 +103,10 @@ const _wrappedMixin = '__mixwith_wrappedMixin';
  * @return {MixinFunction} `wrapper`
  */
 export const wrap = (mixin, wrapper) => {
-  Object.setPrototypeOf(wrapper, mixin);
+  // In our case, we couldn't find a way to use setPrototypeOf
+  // in a React-Native project. Even though __proto__ is known for being slow,
+  // this is the best way we've found to make it work.
+  wrapper.__proto__ = mixin;
   if (!mixin[_wrappedMixin]) {
     mixin[_wrappedMixin] = mixin;
   }

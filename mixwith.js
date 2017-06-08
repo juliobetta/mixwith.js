@@ -28,7 +28,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   var _originalMixin = exports._originalMixin = Symbol('_originalMixin');
 
   var wrap = exports.wrap = function (mixin, wrapper) {
-    Object.setPrototypeOf(wrapper, mixin);
+    // In our case, we couldn't find a way to use setPrototypeOf
+    // in a React-Native project. Even though __proto__ is known for being slow,
+    // this is the best way we've found to make it work.
+    wrapper.__proto__ = mixin;
     if (!mixin[_originalMixin]) {
       mixin[_originalMixin] = mixin;
     }
